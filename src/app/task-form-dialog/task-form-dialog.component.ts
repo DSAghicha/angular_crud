@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MatDialogRef } from '@angular/material/dialog'
+import { ApiService } from '../services/api.service'
 
 interface Category {
     value: String
@@ -20,7 +22,10 @@ export class TaskFormDialogComponent implements OnInit {
         {value: 'personal', displayValue: 'Personal'}
     ]
     
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(
+        private formBuilder: FormBuilder,
+        private api: ApiService,
+        private dialogRef: MatDialogRef<TaskFormDialogComponent>) { }
 
     ngOnInit(): void { 
         this.taskForm = this.formBuilder.group({
@@ -32,7 +37,18 @@ export class TaskFormDialogComponent implements OnInit {
     }
 
     public addTask() {
-        console.log(this.taskForm.value)
-        
+        if(this.taskForm.valid) {
+            this.api.postTask(this.taskForm.value)
+            .subscribe({
+                next:(res) => {
+                    alert("Product added successfully!")
+                    this.taskForm.reset()
+                    this.dialogRef.close()
+                },
+                error:() => {
+                    alert("Error while adding task!")
+                }
+            })
+        }     
     }
 }
