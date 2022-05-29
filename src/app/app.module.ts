@@ -6,23 +6,37 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Material Components
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { TaskFormDialogComponent } from './task-form-dialog/task-form-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
         AppComponent,
+        TaskFormDialogComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         MatButtonModule,
+        MatDatepickerModule,
         MatDialogModule,
+        MatFormFieldModule,
         MatIconModule,
-        MatToolbarModule
+        MatInputModule,
+        MatNativeDateModule,
+        MatSelectModule,
+        MatToolbarModule,
+        ReactiveFormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]
