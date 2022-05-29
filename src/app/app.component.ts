@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ApiService } from './services/api.service';
 import { TaskFormDialogComponent } from './task-form-dialog/task-form-dialog.component';
 
 @Component({
@@ -7,14 +11,46 @@ import { TaskFormDialogComponent } from './task-form-dialog/task-form-dialog.com
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.sass']
 })
-export class AppComponent {
-    title = 'angular_crud';
+export class AppComponent implements OnInit {
+    title = 'angular_crud'
+    displayedColumns: string[] = ['id', 'taskTitle', 'taskDescription', 'taskCategory', 'taskDueDate', 'actions'];
+    dataSource !: MatTableDataSource<any>;
 
-    constructor(private dialog: MatDialog) { }
+    @ViewChild(MatPaginator) paginator !: MatPaginator
+    @ViewChild(MatSort) sort !: MatSort
+
+    constructor(private dialog: MatDialog, private api: ApiService) { }
+
+    ngOnInit(): void {
+        this.getAllTasks()
+    }
 
     openDialog() { 
         this.dialog.open(TaskFormDialogComponent, {
             width: '40%'
+        })
+    }
+
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
+    }
+
+    getAllTasks() {
+        this.api.getTask()
+        .subscribe({
+            next: (res) => {
+                this.dataSource = new MatTableDataSource(res)
+                this.dataSource.paginator = this.paginator
+                this.dataSource.sort = this.sort
+            },
+            error: (err) => {
+                console.error(err)           
+            }
         })
     }
 }
