@@ -53,4 +53,11 @@ export class AppComponent implements OnInit {
             }
         })
     }
+
+    updateTask(task: any) {
+        this.dialog.open(TaskFormDialogComponent, {
+            width: '40%',
+            data: task
+        })
+    }
 }
