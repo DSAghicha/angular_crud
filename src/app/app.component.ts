@@ -64,4 +64,17 @@ export class AppComponent implements OnInit {
             this.getAllTasks()
         })
     }
+
+    deleteTask(id: number) {
+        this.api.deleteTask(id)
+        .subscribe({
+            next: () => {
+                alert("Task Delete Successfully!")
+                this.getAllTasks()
+            },
+            error: () => {
+                alert("Unable to delete task!")
+            }
+        })
+    }
 }

@@ -52,7 +52,7 @@
                             <button mat-icon-button (click)="updateTask(row)">
                                 <mat-icon color="primary">edit</mat-icon>
                             </button>
-                            <button mat-icon-button>
+                            <button mat-icon-button (click)="deleteTask(row.id)">
                                 <mat-icon color="warn">delete</mat-icon>
                             </button>
                         </td>
