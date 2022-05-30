@@ -13,6 +13,20 @@
       "taskCategory": "personal",
       "taskDueDate": "2022-05-30T18:30:00.000Z",
       "id": 2
+    },
+    {
+      "taskTitle": "Test Drive",
+      "taskDescription": "Learn Angular CRUD Operation",
+      "taskCategory": "office",
+      "taskDueDate": "2022-05-30T18:30:00.000Z",
+      "id": 3
+    },
+    {
+      "taskTitle": "Test Run 2",
+      "taskDescription": "CRUD",
+      "taskCategory": "personal",
+      "taskDueDate": "2022-05-11T18:30:00.000Z",
+      "id": 4
     }
   ]
 }
