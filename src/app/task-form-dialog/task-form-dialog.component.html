@@ -26,7 +26,7 @@
         </mat-form-field>
         <div mat-dialog-action [align]="'end'">
             <button mat-raised-button color="warn" mat-dialog-close>Close</button>
-            <button mat-raised-button color="primary" (click)="addTask()" style="margin-left: 8px;">Save</button>
+            <button mat-raised-button color="primary" (click)="saveTask()" style="margin-left: 8px;">{{ actionBtn }}</button>
         </div>
     </form>
 </div>

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MatDialogRef } from '@angular/material/dialog'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { ApiService } from '../services/api.service'
 
 interface Category {
@@ -15,6 +15,7 @@ interface Category {
 })
 export class TaskFormDialogComponent implements OnInit {
     taskForm !: FormGroup
+    actionBtn : string = "Add"
 
     /** Static Category List */
     categories: Category[] = [
@@ -23,6 +24,7 @@ export class TaskFormDialogComponent implements OnInit {
     ]
     
     constructor(
+        @Inject(MAT_DIALOG_DATA) public editData: any,
         private formBuilder: FormBuilder,
         private api: ApiService,
         private dialogRef: MatDialogRef<TaskFormDialogComponent>) { }
@@ -34,14 +36,22 @@ export class TaskFormDialogComponent implements OnInit {
             taskCategory: ['', Validators.required],
             taskDueDate: ['', Validators.required]
         })
+        
+        if (this.editData) {            
+            this.actionBtn = "Update"
+            this.taskForm.controls['taskTitle'].setValue(this.editData.taskTitle)
+            this.taskForm.controls['taskDescription'].setValue(this.editData.taskDescription)
+            this.taskForm.controls['taskCategory'].setValue(this.editData.taskCategory)
+            this.taskForm.controls['taskDueDate'].setValue(this.editData.taskDueDate)
+        }
     }
 
-    public addTask() {
-        if(this.taskForm.valid) {
+    public saveTask() {
+        if(this.actionBtn === 'Add' && this.taskForm.valid) {
             this.api.postTask(this.taskForm.value)
             .subscribe({
                 next:(res) => {
-                    alert("Product added successfully!")
+                    alert("Task added successfully!")
                     this.taskForm.reset()
                     this.dialogRef.close()
                 },
@@ -49,6 +59,18 @@ export class TaskFormDialogComponent implements OnInit {
                     alert("Error while adding task!")
                 }
             })
-        }     
+        } else if(this.actionBtn === 'Update' && this.taskForm.valid) {
+            this.api.putTask(this.taskForm.value, this.editData.id)
+            .subscribe({
+                next:(res) => {
+                    alert("Task updated successfully!")
+                    this.taskForm.reset()
+                    this.dialogRef.close()
+                },
+                error:() => {
+                    alert("Error while updating task!")
+                }                
+            })          
+        } 
     }
 }
