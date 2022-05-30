@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
     openDialog() { 
         this.dialog.open(TaskFormDialogComponent, {
             width: '40%'
+        }).afterClosed().subscribe(() => {
+            this.getAllTasks()
         })
     }
 
@@ -58,6 +60,8 @@ export class AppComponent implements OnInit {
         this.dialog.open(TaskFormDialogComponent, {
             width: '40%',
             data: task
+        }).afterClosed().subscribe(() => {
+            this.getAllTasks()
         })
     }
 }
